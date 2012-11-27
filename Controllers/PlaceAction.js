@@ -1,8 +1,10 @@
-﻿include('PlaceSearch.js')
+﻿function requestService(opts) {
 
-function requestService(type, opts) {
-    //this is how I would expect to add a place to the database, but there's all that JSONP trouble
-    var request = {
+}
+
+function addPlace(opts) {
+    alert(opts);
+    var addPlace = {
         type: 'POST',
         //url: "https://maps.googleapis.com/maps/api/place/add/json?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0",
         url: "https://ourwebservice",
@@ -35,19 +37,42 @@ function requestService(type, opts) {
             alert(errorThrown);
         }
     };
-    $.ajax(request);
+    $.ajax(addPlace);
     nearbySearch(opts);
 }
 
-function addPlace() {
-    // Build opts (lat, long, etc)
-    var opts //= above
-    requestService("POST", opts)
-}
-
-function addEvent() {
-    // Build opts (place, duration, etc...)
-    var opts
-    requestService("POST", opts)
+function addEvent(opts) {
+    var addEvent = {
+        type: 'POST',
+        //url: "https://maps.googleapis.com/maps/api/place/event/add/format?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0",
+        url: "https://ourwebservice",
+        datatype: 'json',
+        data: {
+            "duration": opts.duration,
+            "language": "EN-CA",
+            "reference": opts.reference,
+            "summary": opts.description,
+            "url": opts.url
+        },
+        success: function (respond, textStatus, jqXHR) {
+            alert("in respond!");
+            if (respond) {
+                alert(respond);
+                alert(respond["status"]);
+                alert(respond["reference"]);
+                alert(respond["id"]);
+                open_info(latLng, respond["id"]);
+            } else {
+                alert("something wrong with response");
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("error!");
+            alert(textStatus);
+            alert(errorThrown);
+        }
+    };
+    $.ajax(addEvent);
+    nearbySearch(opts);
 }
 
