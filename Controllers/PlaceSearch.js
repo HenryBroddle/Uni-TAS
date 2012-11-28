@@ -2,10 +2,8 @@
     
 }
 
-function nearbySearch(opts) {
-    this.nearbySearch = function (searchString, callback) {
-
-        this.places_service.nearbySearch({
+function nearbySearch(searchString, callback, opts) {
+    this.places_service.nearbySearch({
             location: this.mapPane.map.getCenter(),
             radius: 2000,
             keyword: searchString
