@@ -1,4 +1,4 @@
-// this is a add place function signiture
+// this is a add place function signature
 // Build options
 // PlaceAction.addPlace(options)
 
@@ -46,7 +46,7 @@ function MapPane(layout, location, zoom, DIVid) {
         });
 
         this.infoWindow.open(this.map);
-    }
+    };
 };
 
 function Place(opts) {
@@ -81,7 +81,7 @@ function PlaceForm(layout, place) {
         var fields = {
             "name": $("<input>").attr("type", "text").attr("width", 400),
             "description": $("<input>").attr("type", "text").attr("width", 400)
-        }
+        };
 
         for (key in fields) {
             if (place[key]) { //this will backfire if place ever gets a boolean property, what can we use for isNull or isDefined or something?
@@ -114,7 +114,7 @@ function PlaceForm(layout, place) {
 		);
 
         return div.get(0); //convert from jquery object to DOM object
-    }
+    };
 }
 
 function PlaceSummary(layout, place) {
@@ -139,7 +139,7 @@ function PlaceSummary(layout, place) {
         });
 
         return li;
-    }
+    };
 }
 
 function SideBar(layout, ULid) {
@@ -156,15 +156,15 @@ function SideBar(layout, ULid) {
             me.addPlace(place);
         });
         this.generateHTML();
-    }
+    };
 
     this.addPlace = function (place) {
         this.placeSummaries.push(new PlaceSummary(this.layout, place));
-    }
+    };
 
     this.addPlaceSummary = function (summary) {
         this.placeSummaries.push(summary);
-    }
+    };
 
     this.generateHTML = function () {
         $("ul#" + this.ULid).empty();
@@ -172,7 +172,7 @@ function SideBar(layout, ULid) {
         $.each(this.placeSummaries, function (index, summary) {
             $("ul#" + me.ULid).append(summary.generateHTML());
         });
-    }
+    };
 }
 
 //"main method"		
