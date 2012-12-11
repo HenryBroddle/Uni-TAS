@@ -1,6 +1,7 @@
 package org.unitas;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -28,7 +29,7 @@ public class UniTasResource {
 			addPlace.put("accuracy", place.get("accuracy"));
 			addPlace.put("name", place.get("name"));
 			addPlace.put("types", place.get("types"));
-			addPlace.put("language", "en-AU");
+			addPlace.put("language", place.get("language"));
 			
 			response = postAction(addPlace, resource);
 			
@@ -40,29 +41,29 @@ public class UniTasResource {
 		return response;
 	}
 
-	@POST
-	@Path("/delete")
-	@Consumes({ MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_JSON })
-	public JSONObject deletePlace(JSONObject place) {
-		JSONObject response = new JSONObject();
-		try {
-			String resource = new String("https://maps.googleapis.com/maps/api/place/delete/json?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0");
-			JSONObject delPlace = new JSONObject();
-			
-			delPlace.put("reference", place.get("reference"));
-			
-			response = postAction(delPlace, resource);
+//	@POST
+//	@Path("/delete")
+//	@Consumes({ MediaType.APPLICATION_JSON })
+//	@Produces({ MediaType.APPLICATION_JSON })
+//	public JSONObject deletePlace(JSONObject place) {
+//		JSONObject response = new JSONObject();
+//		try {
+//			String resource = new String("https://maps.googleapis.com/maps/api/place/delete/json?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0");
+//			JSONObject delPlace = new JSONObject();
+//			
+//			delPlace.put("reference", place.get("reference"));
+//			
+//			response = postAction(delPlace, resource);
+//
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//
+//		}
+//		return response;
+//	}
 
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
-		return response;
-	}
-
-	@POST
+	@GET
 	@Path("/event/add")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
@@ -89,21 +90,15 @@ public class UniTasResource {
 		return response;
 	}
 
-	@POST
-	@Path("/event/delete")
+	@GET
+	@Path("/get")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public JSONObject deleteEvent(JSONObject event) {
-		JSONObject response = new JSONObject();
+	public String testMethod(JSONObject test) {
+		String response = new String();
 		try {
-			String resource = "https://maps.googleapis.com/maps/api/place/event/delete/json?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0";
 
-			JSONObject delEvent = new JSONObject();
-			
-			delEvent.put("reference", event.get("reference"));
-			delEvent.put("event_id", event.get("event_id"));
-
-			response = postAction(delEvent, resource);
+			response = (String)test.get("somenumber") + "<- Your number here means success!";
 
 		} catch (Exception e) {
 
@@ -113,6 +108,31 @@ public class UniTasResource {
 		return response;
 	}
 
+
+//	@POST
+//	@Path("/event/delete")
+//	@Consumes({ MediaType.APPLICATION_JSON })
+//	@Produces({ MediaType.APPLICATION_JSON })
+//	public JSONObject deleteEvent(JSONObject event) {
+//		JSONObject response = new JSONObject();
+//		try {
+//			String resource = "https://maps.googleapis.com/maps/api/place/event/delete/json?sensor=false&key=AIzaSyBLSBTaFr11MIh8otpdIPyT1xlTBAuBsi0";
+//
+//			JSONObject delEvent = new JSONObject();
+//			
+//			delEvent.put("reference", event.get("reference"));
+//			delEvent.put("event_id", event.get("event_id"));
+//
+//			response = postAction(delEvent, resource);
+//
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//
+//		}
+//		return response;
+//	}
+
 	private JSONObject postAction(JSONObject obj, String resource) {
 		JSONObject response = new JSONObject();
 		try {
@@ -120,9 +140,12 @@ public class UniTasResource {
 
 			WebResource webResource = client.resource(resource);
 
-			webResource.entity(obj);
+			webResource.entity(obj.toString());
 
-			response = webResource.accept("application/json").post(JSONObject.class);
+			//response = webResource.type(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON).post(JSONObject.class);
+			response = new JSONObject();
+			
+			response.put("status", "screwed");
 
 		} catch (Exception e) {
 
